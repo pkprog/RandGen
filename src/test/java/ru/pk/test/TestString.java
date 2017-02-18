@@ -1,14 +1,16 @@
+package ru.pk.test;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.pk.randgen.BooleanGen;
+import ru.pk.randgen.StringGen;
 
-public class TestBoolean {
-    Logger log = LoggerFactory.getLogger(TestBoolean.class);
+public class TestString {
+    Logger log = LoggerFactory.getLogger(TestString.class);
 
     @Test
     public void test1() {
-        BooleanGen b = new BooleanGen();
+        StringGen b = new StringGen();
         for (int i = 0; i < 100; i++) {
             log.info(String.valueOf(b.gen()));
         }
