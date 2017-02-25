@@ -24,6 +24,9 @@ public class IntegerGen implements GeneratorOperations<Integer> {
         if (min > max) {
             throw new GenRuntimeException("min > max");
         }
+        if (max - min > Integer.MAX_VALUE) {
+            throw new GenRuntimeException("Interval [min, max] > Integer.MAX_VALUE");
+        }
 
         this.useMinMax = true;
         this.min = min;
@@ -34,7 +37,7 @@ public class IntegerGen implements GeneratorOperations<Integer> {
         Integer result;
         double source = this.randomize.random();
         if (useMinMax) {
-            result = (int) (source * (this.max - this.min + 1) + this.min);
+            result = (int) Math.round(source * (this.max - this.min) + this.min);
         } else {
             result = (int) (source * 10);
         }

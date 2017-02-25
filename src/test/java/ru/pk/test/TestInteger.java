@@ -6,9 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.pk.randgen.IntegerGen;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 public class TestInteger {
     Logger log = LoggerFactory.getLogger(TestInteger.class);
 
@@ -22,36 +19,40 @@ public class TestInteger {
 
     @Test
     public void testBorders() {
-        final int start = 1;
-        final int end = 15;
-        IntegerGen b = new IntegerGen(start, end);
-        boolean foundStart = false, foundEnd = false;
-        for (int i = 0; i < 1000; i++) {
-            Integer obj = b.gen();
-            if (obj == start) foundStart = true;
-            if (obj == end) foundEnd = true;
-//            log.info(String.valueOf(obj));
-        }
-
-        Assert.assertTrue(foundStart);
-        Assert.assertTrue(foundEnd);
+        geneneralTest(1, 15);
     }
 
     @Test
     public void testBorders2() {
-        final int start = -1;
-        final int end = 15;
+        geneneralTest(-1, -1);
+    }
+
+    @Test
+    public void testBorders3() {
+        geneneralTest(-10, -8);
+    }
+
+    private void geneneralTest(int start, int end) {
+        log.info("start=" + start + ", end=" + end);
+
+        boolean startCrossed = false, endCrossed = false;
+
         IntegerGen b = new IntegerGen(start, end);
         boolean foundStart = false, foundEnd = false;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < Math.abs(end - start + 1) * 10; i++) {
             Integer obj = b.gen();
             if (obj == start) foundStart = true;
             if (obj == end) foundEnd = true;
+            if (obj < start) startCrossed = true;
+            if (obj > end) endCrossed = true;
+
             log.info(String.valueOf(obj));
         }
 
-        Assert.assertTrue(foundStart);
-        Assert.assertTrue(foundEnd);
+        Assert.assertTrue("Start not found", foundStart);
+        Assert.assertTrue("End not found", foundEnd);
+        Assert.assertFalse("Found < start", startCrossed);
+        Assert.assertFalse("Found > end", endCrossed);
     }
 
 }

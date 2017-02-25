@@ -5,8 +5,8 @@ import ru.pk.randgen.randomize.Randomize;
 /**
  * Created by pk on 11.02.2017.
  */
-public class StringGen implements GeneratorOperations<String> {
-    public enum StringGenType {
+public class CharGen implements GeneratorOperations<Character> {
+    public enum CharGenType {
         /**default*/
         ENG,
         RUS
@@ -22,26 +22,26 @@ public class StringGen implements GeneratorOperations<String> {
             'Я','Ч','С','М','И','Т','Ь','Б','Ю'
     };
 
-    protected StringGenType genType = StringGenType.ENG;
+    protected CharGenType genType = CharGenType.ENG;
 
-    public StringGen() {
-    }
+    public CharGen() {}
 
-    public StringGen(StringGenType genType) {
+    public CharGen(CharGenType genType) {
         if (genType != null) {
             this.genType = genType;
         }
     }
 
-    public String gen() {
+    public Character gen() {
         double source = Randomize.getInstance().random();
-        String result = "";
+        Character result;
 
-        if (StringGenType.RUS.equals(this.genType)) {
-            result += symbolsRus[(int) Math.round(source * (symbolsRus.length - 1))];
+        if (CharGenType.RUS.equals(this.genType)) {
+            result = symbolsRus[(int) Math.round(source * (symbolsRus.length - 1))];
         } else {
-            result += symbolsEng[(int) Math.round(source * (symbolsEng.length - 1))];
+            result = symbolsEng[(int) Math.round(source * (symbolsEng.length - 1))];
         }
+
         return result;
     }
 
