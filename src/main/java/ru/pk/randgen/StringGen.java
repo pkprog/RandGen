@@ -9,7 +9,8 @@ public class StringGen implements GeneratorOperations<String> {
     public enum StringGenType {
         /**default*/
         ENG,
-        RUS
+        RUS,
+        RUS_WORDS
     }
     protected static char[] symbolsEng = new char[] {
             'Q','W','E','R','T','Y','U','I','O','P',
@@ -39,6 +40,8 @@ public class StringGen implements GeneratorOperations<String> {
 
         if (StringGenType.RUS.equals(this.genType)) {
             result += symbolsRus[(int) Math.round(source * (symbolsRus.length - 1))];
+        } else if (StringGenType.RUS_WORDS.equals(this.genType)) {
+
         } else {
             result += symbolsEng[(int) Math.round(source * (symbolsEng.length - 1))];
         }
