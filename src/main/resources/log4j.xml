@@ -10,6 +10,9 @@
     </appender>
 
 
+    <logger name="ru.pk.randgen.AnnotationsDataFill" additivity="false">
+        <appender-ref ref=""/>
+    </logger>
 
     <root>
         <priority value ="debug" />

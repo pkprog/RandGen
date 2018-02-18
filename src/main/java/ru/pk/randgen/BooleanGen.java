@@ -4,6 +4,7 @@ import ru.pk.randgen.randomize.Randomize;
 
 /**
  * Created by pk on 11.02.2017.
+ * Thanks to Ann
  */
 public class BooleanGen implements GeneratorOperations<Boolean> {
     private Randomize randomize;
