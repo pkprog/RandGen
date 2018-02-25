@@ -34,8 +34,8 @@ public class StringGen implements GeneratorOperations<String> {
 
     public StringGen(StringGenType genType, int minLength, int maxLength) {
         this.genType = genType;
-        this.minLength = minLength;
-        this.maxLength = maxLength;
+        this.minLength = minLength < 0 ? 0 : minLength;
+        this.maxLength = maxLength < 0 ? 0 : maxLength;
     }
 
     public StringGen(StringGenType genType) {
@@ -54,8 +54,8 @@ public class StringGen implements GeneratorOperations<String> {
             double rndSource = Randomize.getInstance().random();
             result += symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))];
         } else if (StringGenType.RUS_WORD.equals(this.genType)) {
-            double rndSource = Randomize.getInstance().random();
-            int rndLength = (int) Math.round(rndSource * (maxLength - minLength));
+            double rndSource = Randomize.getInstance().random(); //0-0.9999
+            int rndLength = (int) Math.round(rndSource * (maxLength - minLength))+ minLength;
             StringBuffer buffer = new StringBuffer();
             for (int i = 0; i < rndLength; i++) {
                 rndSource = Randomize.getInstance().random();

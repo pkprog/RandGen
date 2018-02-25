@@ -10,8 +10,8 @@ public class TestString {
 
     @Test
     public void test1() {
-        StringGen b = new StringGen(StringGen.StringGenType.RUS_WORD, 1, 2);
-        for (int i = 0; i < 1; i++) {
+        StringGen b = new StringGen(StringGen.StringGenType.RUS_WORD, 1, 10);
+        for (int i = 0; i < 100; i++) {
             log.info(String.valueOf(b.gen()));
         }
     }
