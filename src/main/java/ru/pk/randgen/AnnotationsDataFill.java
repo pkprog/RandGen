@@ -8,6 +8,7 @@ import ru.pk.randgen.exceptions.GenRuntimeException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class AnnotationsDataFill {
     private static String targetClassAnnotationName;
     private static Class targetFieldAnnotation = RandGenField.class;
     private static String targetFieldAnnotationName;
+
+    private DecimalFormat decimalFormat = new DecimalFormat("0.000");
 
     static {
         targetClassAnnotationName = targetClassAnnotation.getName();
@@ -66,7 +69,7 @@ public class AnnotationsDataFill {
     }
 
     private void fillByFields(Object obj, Class c) {
-        GetFieldsResult getFieldsResult = getFields(c);
+        GetFieldsResult getFieldsResult = collectFields(c);
         List<FieldAnnotation> goodFields = getFieldsResult.goodFields;
 
         for (FieldAnnotation fa: goodFields) {
@@ -83,11 +86,11 @@ public class AnnotationsDataFill {
                         if (!accessible) f.setAccessible(true);
                         f.setBoolean(obj, generateBoolean(ann));
                     } else
-                    if (typeOfField.getName().equals("int") && ann.type().equals(RandGenField.GeneratorValueType.INTEGER)) {
+                    if (typeOfField.getName().equals("int")) {
                         if (!accessible) f.setAccessible(true);
                         f.setInt(obj, generateInteger(ann));
                     } else //TODO: LongGen
-                    if (typeOfField.getName().equals("long") && ann.type().equals(RandGenField.GeneratorValueType.LONG)) {
+                    if (typeOfField.getName().equals("long")) {
                         if (!accessible) f.setAccessible(true);
                         f.setLong(obj, generateLong(ann));
                     }
@@ -97,22 +100,25 @@ public class AnnotationsDataFill {
                 } finally {
                     f.setAccessible(accessible);
                 }
-
             } else {
                 LOG.debug("Found {} object field {}", typeOfField.getSimpleName(), f.getName());
                 try {
-                    if (typeOfField.equals(Boolean.class) && ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN)) {
+                    if (typeOfField.equals(Boolean.class)) {
                         if (!accessible) f.setAccessible(true);
                         f.set(obj, generateBoolean(ann));
                     } else
-                    if (typeOfField.equals(Integer.class) && ann.type().equals(RandGenField.GeneratorValueType.INTEGER)) {
+                    if (typeOfField.equals(Integer.class)) {
                         if (!accessible) f.setAccessible(true);
                         f.set(obj, generateInteger(ann));
                     } else //TODO: LongGen
-                        if (typeOfField.equals(Long.class) && ann.type().equals(RandGenField.GeneratorValueType.LONG)) {
-                            if (!accessible) f.setAccessible(true);
-                            f.set(obj, generateLong(ann));
-                        }
+                    if (typeOfField.equals(Long.class)) {
+                        if (!accessible) f.setAccessible(true);
+                        f.set(obj, generateLong(ann));
+                    } else
+                    if (typeOfField.equals(String.class)) {
+                        if (!accessible) f.setAccessible(true);
+                        f.set(obj, generateString(ann));
+                    }
                 } catch (IllegalAccessException e) {
                     LOG.error("Illegal access to object field {}. Error: {}", f.getName(), e.getMessage());
                     e.printStackTrace();
@@ -170,7 +176,26 @@ public class AnnotationsDataFill {
         throw new GenRuntimeException("Not found generator with Long-result for annotation type "+ ann.type());
     }
 
-    private GetFieldsResult getFields(Class c) {
+    private String generateString(RandGenField ann) {
+        if (RandGenField.GeneratorValueType.BOOLEAN.equals(ann.type())) {
+            return String.valueOf(getBooleanGen().gen());
+        }
+        if (RandGenField.GeneratorValueType.STRING.equals(ann.type())) {
+            return getStringGen(ann).gen();
+        }
+        if (RandGenField.GeneratorValueType.INTEGER.equals(ann.type())) {
+            return String.valueOf(getIntegerGen().gen());
+        }
+        if (RandGenField.GeneratorValueType.LONG.equals(ann.type())) {
+            return String.valueOf(getIntegerGen().gen());
+        } //TODO: Use String max-min length
+        if (RandGenField.GeneratorValueType.DOUBLE.equals(ann.type())) {
+            return decimalFormat.format(getDoubleGen().gen());
+        }
+        throw new GenRuntimeException("Not found generator with Long-result for annotation type "+ ann.type());
+    }
+
+    private GetFieldsResult collectFields(Class c) {
         GetFieldsResult result = new GetFieldsResult();
         //
         Field[] declaredFields = c.getDeclaredFields();
@@ -200,11 +225,19 @@ public class AnnotationsDataFill {
             //primitive
             switch (typeOfField.getName()) {
                 case "boolean":
-                    return ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN);
+                    return ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.INTEGER) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.LONG) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.STRING) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.DOUBLE);
                 case "int":
-                    return ann.type().equals(RandGenField.GeneratorValueType.INTEGER);
+                    return ann.type().equals(RandGenField.GeneratorValueType.INTEGER) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.LONG);
                 case "long":
-                    return ann.type().equals(RandGenField.GeneratorValueType.LONG);
+                    return ann.type().equals(RandGenField.GeneratorValueType.LONG) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                            ann.type().equals(RandGenField.GeneratorValueType.INTEGER);
             }
 
             return false;
@@ -212,13 +245,28 @@ public class AnnotationsDataFill {
 
         //Object
         if (typeOfField.equals(Long.class)) {
-            return ann.type().equals(RandGenField.GeneratorValueType.LONG);
+            return ann.type().equals(RandGenField.GeneratorValueType.LONG) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.INTEGER);
         }
         if (typeOfField.equals(Integer.class)) {
-            return ann.type().equals(RandGenField.GeneratorValueType.INTEGER);
+            return ann.type().equals(RandGenField.GeneratorValueType.INTEGER) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.LONG);
         }
         if (typeOfField.equals(Boolean.class)) {
-            return ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN);
+            return ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.INTEGER) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.LONG) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.STRING) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.DOUBLE);
+        }
+        if (typeOfField.equals(String.class)) {
+            return ann.type().equals(RandGenField.GeneratorValueType.BOOLEAN) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.INTEGER) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.LONG) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.STRING) ||
+                    ann.type().equals(RandGenField.GeneratorValueType.DOUBLE);
         }
 
         return false;

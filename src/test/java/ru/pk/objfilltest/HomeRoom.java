@@ -18,6 +18,9 @@ public class HomeRoom {
     @RandGenField(type = RandGenField.GeneratorValueType.LONG)
     private long flowersCount;
 
+    @RandGenField(type = RandGenField.GeneratorValueType.STRING)
+    private String roomName;
+
     public Boolean isHasTv() {
         return hasTv;
     }
@@ -41,6 +44,11 @@ public class HomeRoom {
                 ", wallsQuantity=" + wallsQuantity +
                 ", hasTv=" + hasTv +
                 ", flowersCount=" + flowersCount +
+                ", roomName=" + roomName +
                 '}';
+    }
+
+    public String getRoomName() {
+        return roomName;
     }
 }

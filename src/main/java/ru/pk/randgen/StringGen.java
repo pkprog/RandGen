@@ -45,28 +45,34 @@ public class StringGen implements GeneratorOperations<String> {
     }
 
     public String gen() {
-        double rndSource = Randomize.getInstance().random();
         String result = "";
 
         if (StringGenType.RUS_SYMBOL.equals(this.genType)) {
+            double rndSource = Randomize.getInstance().random();
             result += symbolsRus[(int) Math.round(rndSource * (symbolsRus.length - 1))];
         } else if (StringGenType.ENG_SYMBOL.equals(this.genType)) {
+            double rndSource = Randomize.getInstance().random();
             result += symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))];
         } else if (StringGenType.RUS_WORD.equals(this.genType)) {
+            double rndSource = Randomize.getInstance().random();
             int rndLength = (int) Math.round(rndSource * (maxLength - minLength));
             StringBuffer buffer = new StringBuffer();
             for (int i = 0; i < rndLength; i++) {
+                rndSource = Randomize.getInstance().random();
                 buffer.append(symbolsRus[(int) Math.round(rndSource * (symbolsRus.length - 1))]);
             }
             result = buffer.toString();
         } else if (StringGenType.ENG_WORD.equals(this.genType)) {
+            double rndSource = Randomize.getInstance().random();
             int rndLength = (int) Math.round(rndSource * (maxLength - minLength));
             StringBuffer buffer = new StringBuffer();
             for (int i = 0; i < rndLength; i++) {
+                rndSource = Randomize.getInstance().random();
                 buffer.append(symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))]);
             }
             result = buffer.toString();
         } else {
+            double rndSource = Randomize.getInstance().random();
             result += symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))];
         }
         return result;

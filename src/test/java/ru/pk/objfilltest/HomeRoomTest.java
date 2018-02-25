@@ -21,7 +21,7 @@ public class HomeRoomTest {
 
         LOG.warn("Tests passed");
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100; i++) {
             HomeRoom h = new HomeRoom();
             String h1 = h.toString();
             annotationsDataFill.fill(h);
