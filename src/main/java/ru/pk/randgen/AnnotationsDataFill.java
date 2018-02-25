@@ -34,7 +34,7 @@ public class AnnotationsDataFill {
     private ScanType scanType;
 
     public AnnotationsDataFill() {
-        this(ScanType.BY_CLASS);
+        this(ScanType.BY_FIELDS);
     }
 
     public AnnotationsDataFill(ScanType scanType) {
@@ -127,7 +127,7 @@ public class AnnotationsDataFill {
         if (RandGenField.GeneratorValueType.BOOLEAN.equals(ann.type()))
             return getBooleanGen().gen();
         if (RandGenField.GeneratorValueType.STRING.equals(ann.type())) {
-            StringGen sg = getStringGen();
+            StringGen sg = getStringGen(ann);
             String tempS = sg.gen();
             return !tempS.equals("");
         }
@@ -262,7 +262,7 @@ public class AnnotationsDataFill {
 
     private static final Object syncStringGenObj = new Object();
 
-    private static StringGen getStringGen() {
+    private static StringGen getStringGen(RandGenField ann) {
         if (AnnotationsDataFill.stringGenInstance != null) {
             return AnnotationsDataFill.stringGenInstance;
         } else {
@@ -270,7 +270,9 @@ public class AnnotationsDataFill {
                 if (AnnotationsDataFill.stringGenInstance != null)
                     return AnnotationsDataFill.stringGenInstance;
                 else {
-                    StringGen gen = new StringGen();
+                    int minLen = ann.stringMinLength();
+                    int maxLen = ann.stringMaxLength();
+                    StringGen gen = new StringGen(StringGen.StringGenType.RUS_WORD, minLen, maxLen);
                     AnnotationsDataFill.stringGenInstance = gen;
                     return AnnotationsDataFill.stringGenInstance;
                 }

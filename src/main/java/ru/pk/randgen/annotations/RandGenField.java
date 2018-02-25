@@ -9,6 +9,8 @@ public @interface RandGenField {
     boolean defaultNull() default false;
     String rangeStart() default "";
     String rangeEnd() default "";
+    int stringMinLength() default 1;
+    int stringMaxLength() default 10;
 
     public enum GeneratorValueType {
         BOOLEAN,
