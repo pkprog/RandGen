@@ -8,5 +8,10 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RandGenClass {
+    IncludeSuperclass withParent() default IncludeSuperclass.NO;
 
+    public enum IncludeSuperclass {
+        NO,
+        YES
+    }
 }

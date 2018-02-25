@@ -3,8 +3,8 @@ package ru.pk.objfilltest;
 import ru.pk.randgen.annotations.RandGenClass;
 import ru.pk.randgen.annotations.RandGenField;
 
-@RandGenClass
-public class HomeRoom {
+@RandGenClass(withParent = RandGenClass.IncludeSuperclass.YES)
+public class HomeRoom extends AbstractRoom {
 
     @RandGenField(type = RandGenField.GeneratorValueType.INTEGER)
     private int windowsQuantity = -1;
@@ -40,7 +40,8 @@ public class HomeRoom {
     @Override
     public String toString() {
         return "HomeRoom{" +
-                "windowsQuantity=" + windowsQuantity +
+                "wallsColor=" + getWallsColor() +
+                ", windowsQuantity=" + windowsQuantity +
                 ", wallsQuantity=" + wallsQuantity +
                 ", hasTv=" + hasTv +
                 ", flowersCount=" + flowersCount +
