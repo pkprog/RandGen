@@ -40,7 +40,7 @@ public class HomeRoom extends AbstractRoom {
     @Override
     public String toString() {
         return "HomeRoom{" +
-                "wallsColor=" + getWallsColor() +
+//                "wallsColor=" + getWallsColor() +
                 ", windowsQuantity=" + windowsQuantity +
                 ", wallsQuantity=" + wallsQuantity +
                 ", hasTv=" + hasTv +

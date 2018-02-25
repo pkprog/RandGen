@@ -6,11 +6,9 @@ import ru.pk.randgen.annotations.RandGenClass;
 import ru.pk.randgen.annotations.RandGenField;
 import ru.pk.randgen.exceptions.GenRuntimeException;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -201,18 +199,32 @@ public class AnnotationsDataFill {
         GetFieldsResult result = new GetFieldsResult();
 
         if (withParent) {
-            List<Field> fields = getFieldsFromParents(c);
+            List<Field> declaredFields = getFieldsFromParents(c);
+            for (int i = 0; i < declaredFields.size(); i++) {
+                Field f = declaredFields.get(i);
+                RandGenField fieldAnn = (RandGenField) f.getAnnotation(targetFieldAnnotation);
+                if (fieldAnn != null) {
+                    LOG.debug("Found field {} annotation {}", f.getName(), targetFieldAnnotationName);
+                    if (checkFieldType(f, fieldAnn))
+                        result.goodFields.add(new FieldAnnotation(f, fieldAnn));
+                    else {
+                        LOG.debug("Field {} not added due checks failure", f.getName());
+                        result.badFields.add(new FieldAnnotation(f, fieldAnn));
+                    }
+                }
+            }
         } else {
             Field[] declaredFields = c.getDeclaredFields();
             for (int i = 0; i < declaredFields.length; i++) {
-                RandGenField fieldAnn = (RandGenField) declaredFields[i].getAnnotation(targetFieldAnnotation);
+                Field f = declaredFields[i];
+                RandGenField fieldAnn = (RandGenField) f.getAnnotation(targetFieldAnnotation);
                 if (fieldAnn != null) {
-                    LOG.debug("Found field {} annotation {}", declaredFields[i].getName(), targetFieldAnnotationName);
-                    if (checkFieldType(declaredFields[i], fieldAnn))
-                        result.goodFields.add(new FieldAnnotation(declaredFields[i], fieldAnn));
+                    LOG.debug("Found field {} annotation {}", f.getName(), targetFieldAnnotationName);
+                    if (checkFieldType(f, fieldAnn))
+                        result.goodFields.add(new FieldAnnotation(f, fieldAnn));
                     else {
-                        LOG.debug("Field {} not added due checks failure", declaredFields[i].getName());
-                        result.badFields.add(new FieldAnnotation(declaredFields[i], fieldAnn));
+                        LOG.debug("Field {} not added due checks failure", f.getName());
+                        result.badFields.add(new FieldAnnotation(f, fieldAnn));
                     }
                 }
             }
@@ -228,10 +240,12 @@ public class AnnotationsDataFill {
         List<Field> result = new LinkedList<>();
         result.addAll(Arrays.asList(c.getDeclaredFields()));
 
+        Class temp = c;
         while (true) {
-            Class parent = c.getSuperclass();
-            if (parent != null) {
+            Class parent = temp.getSuperclass();
+            if (parent != null && !parent.getName().equals(Object.class.getName())) {
                 result.addAll(Arrays.asList(parent.getDeclaredFields()));
+                temp = parent;
             } else
                 break;
         }
