@@ -6,16 +6,16 @@ import ru.pk.randgen.annotations.RandGenField;
 @RandGenClass
 public class HomeRoom {
 
-    @RandGenField(type = RandGenField.ClassType.INTEGER)
+    @RandGenField(type = RandGenField.GeneratorValueType.INTEGER)
     private int windowsQuantity = -1;
 
-    @RandGenField(type = RandGenField.ClassType.INTEGER)
+    @RandGenField(type = RandGenField.GeneratorValueType.INTEGER)
     private Integer wallsQuantity;
 
-    @RandGenField(type = RandGenField.ClassType.BOOLEAN)
+    @RandGenField(type = RandGenField.GeneratorValueType.BOOLEAN)
     private Boolean hasTv;
 
-    @RandGenField(type = RandGenField.ClassType.LONG)
+    @RandGenField(type = RandGenField.GeneratorValueType.LONG)
     private long flowersCount;
 
     public Boolean isHasTv() {

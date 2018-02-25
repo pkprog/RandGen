@@ -9,8 +9,8 @@ import java.util.Map;
  * By default creates MathSequence
  */
 public class Randomize {
-    private volatile static Map<MakeRandomSequence, Randomize> randomizers = new HashMap<>();
-    private MakeRandomSequence randSequence;
+    private volatile static Map<MakeRandomSequence<Double>, Randomize> randomizers = new HashMap<>();
+    private MakeRandomSequence<Double> randSequence;
 
     private Randomize(MakeRandomSequence randSequence) {
         this.randSequence = randSequence;

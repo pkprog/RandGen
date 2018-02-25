@@ -4,11 +4,11 @@ package ru.pk.randgen.randomize;
  * Created by pk on 11.02.2017.
  * Generate random sequence using Math.random()
  */
-public class MathSequence implements MakeRandomSequence {
+public class MathSequence implements MakeRandomSequence<Double> {
     private static MathSequence instance;
 
     @Override
-    public double random() {
+    public Double random() {
         return Math.random();
     }
 

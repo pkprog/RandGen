@@ -12,7 +12,8 @@ public class HomeRoomTest {
     @Test
     public void test() {
         HomeRoom homeRoom = new HomeRoom();
-        AnnotationsDataFill.fill(homeRoom);
+        AnnotationsDataFill annotationsDataFill = new AnnotationsDataFill(AnnotationsDataFill.ScanType.BY_FIELDS);
+        annotationsDataFill.fill(homeRoom);
 
         Assert.assertTrue(homeRoom.isHasTv() != null);
         Assert.assertTrue(homeRoom.getWindowsQuantity() >= 0);
@@ -23,7 +24,7 @@ public class HomeRoomTest {
         for (int i = 0; i < 10000; i++) {
             HomeRoom h = new HomeRoom();
             String h1 = h.toString();
-            AnnotationsDataFill.fill(h);
+            annotationsDataFill.fill(h);
             String h2 = h.toString();
             LOG.info("{}: {} --> {}", i, h1, h2);
         }

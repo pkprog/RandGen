@@ -5,12 +5,12 @@ import java.lang.annotation.*;
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RandGenField {
-    ClassType type();
+    GeneratorValueType type();
     boolean defaultNull() default false;
     String rangeStart() default "";
     String rangeEnd() default "";
 
-    public enum ClassType {
+    public enum GeneratorValueType {
         BOOLEAN,
         STRING,
         INTEGER,
