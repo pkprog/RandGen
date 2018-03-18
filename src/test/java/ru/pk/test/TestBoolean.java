@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.pk.randgen.BooleanGen;
+import ru.pk.randgen.gentype.BooleanGen;
 
 public class TestBoolean {
     Logger log = LoggerFactory.getLogger(TestBoolean.class);

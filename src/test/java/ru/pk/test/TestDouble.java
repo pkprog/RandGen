@@ -3,8 +3,7 @@ package ru.pk.test;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.pk.randgen.BooleanGen;
-import ru.pk.randgen.DoubleGen;
+import ru.pk.randgen.gentype.DoubleGen;
 
 public class TestDouble {
     Logger log = LoggerFactory.getLogger(TestDouble.class);

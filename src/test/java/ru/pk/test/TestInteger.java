@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.pk.randgen.IntegerGen;
+import ru.pk.randgen.gentype.IntegerGen;
 
 public class TestInteger {
     Logger log = LoggerFactory.getLogger(TestInteger.class);

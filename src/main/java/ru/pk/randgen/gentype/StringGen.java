@@ -1,11 +1,12 @@
-package ru.pk.randgen;
+package ru.pk.randgen.gentype;
 
+import ru.pk.randgen.Generator;
 import ru.pk.randgen.randomize.Randomize;
 
 /**
  * Created by pk on 11.02.2017.
  */
-public class StringGen implements GeneratorOperations<String> {
+public class StringGen implements Generator<String> {
     protected final static int DEFAUL_MIN_LENGTH = 1;
     protected final static int DEFAUL_MAX_LENGTH = 10;
 
@@ -48,34 +49,50 @@ public class StringGen implements GeneratorOperations<String> {
         String result = "";
 
         if (StringGenType.RUS_SYMBOL.equals(this.genType)) {
-            double rndSource = Randomize.getInstance().random();
-            result += symbolsRus[(int) Math.round(rndSource * (symbolsRus.length - 1))];
+            result = genRusSymbol();
         } else if (StringGenType.ENG_SYMBOL.equals(this.genType)) {
-            double rndSource = Randomize.getInstance().random();
-            result += symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))];
+            result = genEngSymbol();
         } else if (StringGenType.RUS_WORD.equals(this.genType)) {
-            double rndSource = Randomize.getInstance().random(); //0-0.9999
-            int rndLength = (int) Math.round(rndSource * (maxLength - minLength))+ minLength;
-            StringBuffer buffer = new StringBuffer();
-            for (int i = 0; i < rndLength; i++) {
-                rndSource = Randomize.getInstance().random();
-                buffer.append(symbolsRus[(int) Math.round(rndSource * (symbolsRus.length - 1))]);
-            }
-            result = buffer.toString();
+            result = genRusWord();
         } else if (StringGenType.ENG_WORD.equals(this.genType)) {
-            double rndSource = Randomize.getInstance().random();
-            int rndLength = (int) Math.round(rndSource * (maxLength - minLength));
-            StringBuffer buffer = new StringBuffer();
-            for (int i = 0; i < rndLength; i++) {
-                rndSource = Randomize.getInstance().random();
-                buffer.append(symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))]);
-            }
-            result = buffer.toString();
+            result = genEndWord();
         } else {
             double rndSource = Randomize.getInstance().random();
             result += symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))];
         }
         return result;
+    }
+
+    private String genRusSymbol() {
+        double rndSource = Randomize.getInstance().random();
+        return ""+ symbolsRus[(int) Math.round(rndSource * (symbolsRus.length - 1))];
+    }
+
+    private String genEngSymbol() {
+        double rndSource = Randomize.getInstance().random();
+        return ""+ symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))];
+    }
+
+    private String genRusWord() {
+        double rndSource = Randomize.getInstance().random(); //0-0.9999
+        int rndLength = (int) Math.round(rndSource * (maxLength - minLength))+ minLength;
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < rndLength; i++) {
+            rndSource = Randomize.getInstance().random();
+            buffer.append(symbolsRus[(int) Math.round(rndSource * (symbolsRus.length - 1))]);
+        }
+        return buffer.toString();
+    }
+
+    private String genEndWord() {
+        double rndSource = Randomize.getInstance().random();
+        int rndLength = (int) Math.round(rndSource * (maxLength - minLength));
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < rndLength; i++) {
+            rndSource = Randomize.getInstance().random();
+            buffer.append(symbolsEng[(int) Math.round(rndSource * (symbolsEng.length - 1))]);
+        }
+        return buffer.toString();
     }
 
     public enum StringGenType {

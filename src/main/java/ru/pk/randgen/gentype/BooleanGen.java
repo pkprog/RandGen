@@ -1,12 +1,13 @@
-package ru.pk.randgen;
+package ru.pk.randgen.gentype;
 
+import ru.pk.randgen.Generator;
 import ru.pk.randgen.randomize.Randomize;
 
 /**
  * Created by pk on 11.02.2017.
  * Thanks to Ann
  */
-public class BooleanGen implements GeneratorOperations<Boolean> {
+public class BooleanGen implements Generator<Boolean> {
     private Randomize randomize;
 
     public BooleanGen() {

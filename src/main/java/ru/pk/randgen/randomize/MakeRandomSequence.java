@@ -1,7 +1,5 @@
 package ru.pk.randgen.randomize;
 
-import ru.pk.randgen.DoubleGen;
-
 /**
  * Created by pk on 11.02.2017.
  */

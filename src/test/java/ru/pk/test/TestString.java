@@ -3,7 +3,7 @@ package ru.pk.test;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.pk.randgen.StringGen;
+import ru.pk.randgen.gentype.StringGen;
 
 public class TestString {
     Logger log = LoggerFactory.getLogger(TestString.class);

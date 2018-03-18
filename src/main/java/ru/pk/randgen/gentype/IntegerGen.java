@@ -1,12 +1,13 @@
-package ru.pk.randgen;
+package ru.pk.randgen.gentype;
 
+import ru.pk.randgen.Generator;
 import ru.pk.randgen.exceptions.GenRuntimeException;
 import ru.pk.randgen.randomize.Randomize;
 
 /**
  * Created by pk on 11.02.2017.
  */
-public class IntegerGen implements GeneratorOperations<Integer> {
+public class IntegerGen implements Generator<Integer> {
     private Randomize randomize;
     private boolean useMinMax = false;
     private int min = 0;
