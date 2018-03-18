@@ -7,7 +7,13 @@ import ru.pk.randgen.gentype.IntegerGen;
 import ru.pk.randgen.gentype.StringGen;
 
 public abstract class ValueFactory<RETURN_TYPE> {
-    public abstract RETURN_TYPE makeValue(RandGenField ann);
+    protected RandGenField ann;
+
+    public ValueFactory(RandGenField ann) {
+        this.ann = ann;
+    }
+
+    public abstract RETURN_TYPE makeValue();
 
     private static volatile BooleanGen booleanGenInstance = null;
     private static volatile IntegerGen integerGenInstance = null;
