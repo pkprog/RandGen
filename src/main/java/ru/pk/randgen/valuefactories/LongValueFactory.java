@@ -5,8 +5,12 @@ import ru.pk.randgen.annotations.RandGenField;
 import ru.pk.randgen.exceptions.GenRuntimeException;
 
 public class LongValueFactory extends ValueFactory<Long> {
+    public LongValueFactory(RandGenField ann) {
+        super(ann);
+    }
+
     @Override
-    public Long makeValue(RandGenField ann) {
+    public Long makeValue() {
         if (RandGenField.GeneratorValueType.BOOLEAN.equals(ann.type()))
             return getBooleanGen().gen() ? 1L : 0L;
         if (RandGenField.GeneratorValueType.INTEGER.equals(ann.type())) {

@@ -6,8 +6,12 @@ import ru.pk.randgen.exceptions.GenRuntimeException;
 import ru.pk.randgen.gentype.StringGen;
 
 public class BooleanValueFactory extends ValueFactory<Boolean> {
+    public BooleanValueFactory(RandGenField ann) {
+        super(ann);
+    }
 
-    public Boolean makeValue(RandGenField ann) {
+    @Override
+    public Boolean makeValue() {
         if (RandGenField.GeneratorValueType.BOOLEAN.equals(ann.type()))
             return getBooleanGen().gen();
         if (RandGenField.GeneratorValueType.STRING.equals(ann.type())) {

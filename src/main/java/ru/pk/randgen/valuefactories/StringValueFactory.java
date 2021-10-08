@@ -9,8 +9,12 @@ import java.text.DecimalFormat;
 public class StringValueFactory extends ValueFactory<String> {
     private DecimalFormat decimalFormat = new DecimalFormat("0.000");
 
+    public StringValueFactory(RandGenField ann) {
+        super(ann);
+    }
+
     @Override
-    public String makeValue(RandGenField ann) {
+    public String makeValue() {
         if (RandGenField.GeneratorValueType.BOOLEAN.equals(ann.type())) {
             return String.valueOf(getBooleanGen().gen());
         }

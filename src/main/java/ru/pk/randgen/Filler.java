@@ -11,6 +11,11 @@ import java.util.Collection;
 public class Filler {
     private final static Logger LOG = LoggerFactory.getLogger(Filler.class);
 
+    private ValueFactory valueFactory;
+
+    public Filler() {
+    }
+
     public void fill(Object obj, Collection<FieldAnnotation> fieldsAnnotations) {
         for (FieldAnnotation fa: fieldsAnnotations) {
             Field f = fa.field;

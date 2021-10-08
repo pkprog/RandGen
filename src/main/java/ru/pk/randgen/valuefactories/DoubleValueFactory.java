@@ -5,8 +5,12 @@ import ru.pk.randgen.annotations.RandGenField;
 import ru.pk.randgen.exceptions.GenRuntimeException;
 
 public class DoubleValueFactory extends ValueFactory<Double> {
+    public DoubleValueFactory(RandGenField ann) {
+        super(ann);
+    }
+
     @Override
-    public Double makeValue(RandGenField ann) {
+    public Double makeValue() {
         if (RandGenField.GeneratorValueType.BOOLEAN.equals(ann.type()))
             return getBooleanGen().gen() ? 1d : 0;
         if (RandGenField.GeneratorValueType.INTEGER.equals(ann.type())) {
